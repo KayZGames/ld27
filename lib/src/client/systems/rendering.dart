@@ -18,7 +18,7 @@ class EntityRenderingSystem extends EntityProcessingSystem {
     var d = dm.get(entity);
 
     var pos = t.position;
-    var sprite = d.sprite;
+    var sprite = sheet.sprites[d.spriteId];
 
     context.drawImageToRect(sheet.image, new Rect(pos.x + sprite.dst.left, pos.y + sprite.dst.top, sprite.dst.width, sprite.dst.height), sourceRect: sprite.src);
   }

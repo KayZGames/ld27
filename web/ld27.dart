@@ -2,11 +2,7 @@ library ld27;
 
 import 'dart:async';
 
-import 'package:dartemis_toolbox/utils_dartemis.dart';
-
 import 'package:ld27/client.dart';
-
-
 
 void main() {
   window.setImmediate(() {
@@ -32,8 +28,15 @@ class Game {
   Game(this.canvas, this.sheet);
 
   void init() {
-    addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 100.0, 0.0), new Drawable(sheet.sprites['ship_0.png'])]);
+    addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 100.0, 0.0), new Drawable('ship_0.png')]);
+    addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 100.0, 0.0), new Gun(500.0)]);
 
+    // Logic
+    world.addSystem(new MovementSystem());
+    world.addSystem(new BulletSpawningSystem());
+    world.addSystem(new CooldownSystem());
+    world.addSystem(new ExpirationSystem());
+    // Rendering
     world.addSystem(new BackgroundRenderingSystem(canvas.context2D, sheet));
     world.addSystem(new EntityRenderingSystem(canvas.context2D, sheet));
 

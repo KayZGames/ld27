@@ -128,6 +128,38 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
 	"sourceSize": {"w":16,"h":16}
 },
+"bullet_0.png":
+{
+	"frame": {"x":32,"y":192,"w":10,"h":9},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":10,"h":9},
+	"sourceSize": {"w":10,"h":9}
+},
+"bullet_1.png":
+{
+	"frame": {"x":32,"y":173,"w":10,"h":10},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":10,"h":10},
+	"sourceSize": {"w":10,"h":10}
+},
+"bullet_2.png":
+{
+	"frame": {"x":32,"y":201,"w":10,"h":8},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":10,"h":8},
+	"sourceSize": {"w":10,"h":8}
+},
+"bullet_3.png":
+{
+	"frame": {"x":32,"y":183,"w":10,"h":9},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":10,"h":9},
+	"sourceSize": {"w":10,"h":9}
+},
 "ship_0.png":
 {
 	"frame": {"x":0,"y":0,"w":134,"h":141},
@@ -143,6 +175,6 @@
 	"format": "RGBA8888",
 	"size": {"w":256,"h":256},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:3a31b0ce5bbb53c5b7edfe47d4f64388:1/1$"
+	"smartupdate": "$TexturePacker:SmartUpdate:651521e27ebb1eb22e6486058ac65e20:1/1$"
 }
 }
