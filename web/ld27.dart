@@ -1,6 +1,7 @@
 library ld27;
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:ld27/client.dart';
 
@@ -10,8 +11,10 @@ void main() {
     canvas.width = MAX_WIDTH;
     canvas.height = MAX_HEIGHT;
 
-    loadSpritesheet('../assets/img/assets').then((spriteSheet) {
-      Game game = new Game(canvas, spriteSheet);
+
+
+    Future.wait([loadSpritesheet('../assets/img/assets'), loadPolygons('../assets/img/assets')]).then((result) {
+      Game game = new Game(canvas, result[0], result[1]);
       game.init();
 
       window.requestAnimationFrame(game.update);
@@ -23,17 +26,19 @@ void main() {
 class Game {
   CanvasElement canvas;
   SpriteSheet sheet;
+  Map<String, List<Polygon>> polygons;
   num lastTime = 0;
   World world = new World();
-  Game(this.canvas, this.sheet);
+  Game(this.canvas, this.sheet, this.polygons);
 
   void init() {
     var tm = new TagManager();
     world.addManager(tm);
     world.addManager(new PlayerManager());
 
-    var entity = addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 100.0, 0.0), new Velocity(0.0, 0.0), new Drawable('ship_0.png')]);
+    var entity = addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 100.0, 0.0), new Velocity(0.0, 0.0), new Drawable('ship_0.png'), new BodyDef(polygons['ship_0'])]);
     addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 150.0, 0.0), new Velocity(0.0, 0.0), new Gun(500.0)], player: PLAYER_1);
+    addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, 0.0, 0.0), new Velocity(0.1, -PI), new Drawable('truck_0.png'), new BodyDef(polygons['truck_0'])]);
 
     tm.register(entity, PLAYER_1);
 
@@ -47,6 +52,7 @@ class Game {
     // Rendering
     world.addSystem(new BackgroundRenderingSystem(canvas.context2D, sheet));
     world.addSystem(new EntityRenderingSystem(canvas.context2D, sheet));
+//    world.addSystem(new DebugBodyDefRenderingSystem(canvas.context2D, sheet));
 
     world.initialize();
   }

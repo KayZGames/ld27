@@ -24,3 +24,8 @@ class ExpirationTimer extends Component {
   double time;
   ExpirationTimer(this.time);
 }
+
+class BodyDef extends Component {
+  List<Polygon> polygons;
+  BodyDef(this.polygons);
+}

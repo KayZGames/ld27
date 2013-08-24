@@ -24,6 +24,40 @@ class EntityRenderingSystem extends EntityProcessingSystem {
   }
 }
 
+class DebugBodyDefRenderingSystem extends EntityProcessingSystem {
+  ComponentMapper<Transform> tm;
+  ComponentMapper<BodyDef> bm;
+  ComponentMapper<Drawable> dm;
+  CanvasRenderingContext2D context;
+  SpriteSheet sheet;
+
+  DebugBodyDefRenderingSystem(this.context, this.sheet) : super(Aspect.getAspectForAllOf([Transform, BodyDef, Drawable]));
+
+  void initialize() {
+    tm = new ComponentMapper<Transform>(Transform, world);
+    bm = new ComponentMapper<BodyDef>(BodyDef, world);
+    dm = new ComponentMapper<Drawable>(Drawable, world);
+  }
+
+  void processEntity(Entity entity) {
+    var t = tm.get(entity);
+    var b = bm.get(entity);
+    var d = dm.get(entity);
+
+    var pos = t.position;
+    var sprite = sheet.sprites[d.spriteId];
+
+    b.polygons.forEach((Polygon polygon) {
+      context.beginPath();
+      context.moveTo(pos.x + polygon.vertices.last.x + sprite.dst.left, pos.y + polygon.vertices.last.y + sprite.dst.top);
+      polygon.vertices.forEach((vertex) {
+        context.lineTo(pos.x + vertex.x + sprite.dst.left, pos.y + vertex.y + sprite.dst.top);
+      });
+      context.stroke();
+    });
+  }
+}
+
 class BackgroundRenderingSystem extends VoidEntitySystem {
   CanvasElement bgLayer;
   CanvasRenderingContext2D context;
