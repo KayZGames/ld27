@@ -54,7 +54,7 @@ class BulletSpawningSystem extends EntityProcessingSystem {
     entity.changedInWorld();
     addNewEntity(world, [new Transform.w2d(pos.x, pos.y, 0.0),
                          new Velocity(0.4, 0.0),
-                         new Drawable('bullet_${random.nextInt(4)}.png'),
+                         new BodyDef('bullet_${random.nextInt(4)}'),
                          new ExpirationTimer(2000.0)]);
   }
 }
@@ -79,5 +79,14 @@ class MovementSystem extends EntityProcessingSystem {
     pos.y = pos.y - v.abs * cos(v.angle) * world.delta;
 
     t.position = pos;
+  }
+}
+
+class CollisionDetectionSystem extends EntityProcessingSystem {
+  CollisionDetectionSystem() : super(Aspect.getAspectForAllOf([Transform, BodyDef]));
+
+
+  void processEntity(Entity entity) {
+
   }
 }

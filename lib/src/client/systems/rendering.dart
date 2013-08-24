@@ -2,23 +2,23 @@ part of client;
 
 class EntityRenderingSystem extends EntityProcessingSystem {
   ComponentMapper<Transform> tm;
-  ComponentMapper<Drawable> dm;
+  ComponentMapper<BodyDef> bm;
   CanvasRenderingContext2D context;
   SpriteSheet sheet;
 
-  EntityRenderingSystem(this.context, this.sheet) : super(Aspect.getAspectForAllOf([Transform, Drawable]));
+  EntityRenderingSystem(this.context, this.sheet) : super(Aspect.getAspectForAllOf([Transform, BodyDef]));
 
   void initialize() {
     tm = new ComponentMapper<Transform>(Transform, world);
-    dm = new ComponentMapper<Drawable>(Drawable, world);
+    bm = new ComponentMapper<BodyDef>(BodyDef, world);
   }
 
   void processEntity(Entity entity) {
     var t = tm.get(entity);
-    var d = dm.get(entity);
+    var b = bm.get(entity);
 
     var pos = t.position;
-    var sprite = sheet.sprites[d.spriteId];
+    var sprite = sheet.sprites['${b.bodyId}.png'];
 
     context.drawImageToRect(sheet.image, new Rect(pos.x + sprite.dst.left, pos.y + sprite.dst.top, sprite.dst.width, sprite.dst.height), sourceRect: sprite.src);
   }
@@ -27,27 +27,25 @@ class EntityRenderingSystem extends EntityProcessingSystem {
 class DebugBodyDefRenderingSystem extends EntityProcessingSystem {
   ComponentMapper<Transform> tm;
   ComponentMapper<BodyDef> bm;
-  ComponentMapper<Drawable> dm;
   CanvasRenderingContext2D context;
   SpriteSheet sheet;
+  Map<String, List<Polygon>> bodyDefs;
 
-  DebugBodyDefRenderingSystem(this.context, this.sheet) : super(Aspect.getAspectForAllOf([Transform, BodyDef, Drawable]));
+  DebugBodyDefRenderingSystem(this.context, this.sheet, this.bodyDefs) : super(Aspect.getAspectForAllOf([Transform, BodyDef]));
 
   void initialize() {
     tm = new ComponentMapper<Transform>(Transform, world);
     bm = new ComponentMapper<BodyDef>(BodyDef, world);
-    dm = new ComponentMapper<Drawable>(Drawable, world);
   }
 
   void processEntity(Entity entity) {
     var t = tm.get(entity);
     var b = bm.get(entity);
-    var d = dm.get(entity);
 
     var pos = t.position;
-    var sprite = sheet.sprites[d.spriteId];
+    var sprite = sheet.sprites['${b.bodyId}.png'];
 
-    b.polygons.forEach((Polygon polygon) {
+    bodyDefs[b.bodyId].forEach((Polygon polygon) {
       context.beginPath();
       context.moveTo(pos.x + polygon.vertices.last.x + sprite.dst.left, pos.y + polygon.vertices.last.y + sprite.dst.top);
       polygon.vertices.forEach((vertex) {

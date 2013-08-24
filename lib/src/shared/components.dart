@@ -1,10 +1,5 @@
 part of shared;
 
-class Drawable extends Component {
-  String spriteId;
-  Drawable(this.spriteId);
-}
-
 class Gun extends Component {
   double cooldown;
   Gun(this.cooldown);
@@ -26,6 +21,6 @@ class ExpirationTimer extends Component {
 }
 
 class BodyDef extends Component {
-  List<Polygon> polygons;
-  BodyDef(this.polygons);
+  String bodyId;
+  BodyDef(this.bodyId);
 }
