@@ -15,4 +15,6 @@ part 'src/shared/systems/game_logic.dart';
 const MAX_WIDTH = 600;
 const MAX_HEIGHT = 720;
 
+const PLAYER_1 = 'player1';
+
 Random random = new Random();

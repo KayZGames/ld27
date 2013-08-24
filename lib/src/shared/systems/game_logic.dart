@@ -49,9 +49,10 @@ class BulletSpawningSystem extends EntityProcessingSystem {
 
   void processEntity(Entity entity) {
     var g = gm.get(entity);
+    var pos = tm.get(entity).position;
     entity.addComponent(new Cooldown(g.cooldown));
     entity.changedInWorld();
-    addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 150.0, 0.0),
+    addNewEntity(world, [new Transform.w2d(pos.x, pos.y, 0.0),
                          new Velocity(0.4, 0.0),
                          new Drawable('bullet_${random.nextInt(4)}.png'),
                          new ExpirationTimer(2000.0)]);

@@ -28,9 +28,17 @@ class Game {
   Game(this.canvas, this.sheet);
 
   void init() {
-    addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 100.0, 0.0), new Drawable('ship_0.png')]);
-    addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 100.0, 0.0), new Gun(500.0)]);
+    var tm = new TagManager();
+    world.addManager(tm);
+    world.addManager(new PlayerManager());
 
+    var entity = addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 100.0, 0.0), new Velocity(0.0, 0.0), new Drawable('ship_0.png')]);
+    addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 150.0, 0.0), new Velocity(0.0, 0.0), new Gun(500.0)], player: PLAYER_1);
+
+    tm.register(entity, PLAYER_1);
+
+    // Input
+    world.addSystem(new MouseInputHandlingSystem(canvas));
     // Logic
     world.addSystem(new MovementSystem());
     world.addSystem(new BulletSpawningSystem());
