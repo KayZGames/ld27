@@ -1,0 +1,7 @@
+name: ld27
+description: A sample web application
+dependencies:
+  browser: any
+  dartemis: any
+  dartemis_toolbox: any
+  vector_math: any
