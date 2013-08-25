@@ -2,11 +2,27 @@
 
 "bg_rect_0.png":
 {
-	"frame": {"x":0,"y":216,"w":16,"h":16},
+	"frame": {"x":228,"y":0,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
 	"sourceSize": {"w":16,"h":16}
+},
+"plane_0.png":
+{
+	"frame": {"x":128,"y":0,"w":100,"h":110},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":110},
+	"sourceSize": {"w":100,"h":110}
+},
+"plane_1.png":
+{
+	"frame": {"x":128,"y":110,"w":100,"h":109},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":109},
+	"sourceSize": {"w":100,"h":109}
 },
 "ship_0.png":
 {
@@ -16,9 +32,25 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":134},
 	"sourceSize": {"w":128,"h":134}
 },
+"tank_0.png":
+{
+	"frame": {"x":0,"y":134,"w":60,"h":83},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":83},
+	"sourceSize": {"w":60,"h":83}
+},
+"tank_1.png":
+{
+	"frame": {"x":60,"y":134,"w":60,"h":80},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":60,"h":80},
+	"sourceSize": {"w":60,"h":80}
+},
 "truck_0.png":
 {
-	"frame": {"x":0,"y":134,"w":45,"h":82},
+	"frame": {"x":60,"y":214,"w":45,"h":82},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":45,"h":82},
@@ -29,8 +61,8 @@
 	"version": "1.0",
 	"image": "assetsv1.png",
 	"format": "RGBA8888",
-	"size": {"w":128,"h":256},
+	"size": {"w":256,"h":512},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:fabbfbbeff0d71dd523312d394f4a8e0:1/1$"
+	"smartupdate": "$TexturePacker:SmartUpdate:a145e67aba5d053bec4883147986af9c:1/1$"
 }
 }
