@@ -12,7 +12,7 @@ void main() {
     canvas.height = MAX_HEIGHT;
 
     Future.wait([loadSpritesheet('../assets/img/assets'), loadPolygons('../assets/img/assets')]).then((result) {
-      Game game = new Game(canvas, result[0], result[1]);
+      Game game = new Game(canvas, new LayeredSpriteSheet(result[0]), result[1]);
       game.init();
 
       window.requestAnimationFrame(game.initialUpdate);
@@ -23,7 +23,7 @@ void main() {
 
 class Game {
   CanvasElement canvas;
-  SpriteSheet sheet;
+  LayeredSpriteSheet sheet;
   Map<String, List<Polygon>> bodyDefs;
   num lastTime = 0;
   World world = new World();
@@ -31,7 +31,7 @@ class Game {
 
   void init() {
     bodyDefs.forEach((bodyId, shapes) {
-      var offset = sheet.sprites['$bodyId.png'].offset;
+      var offset = sheet.getLayerFor('$bodyId.png').sprites['$bodyId.png'].offset;
       shapes.forEach((shape) {
         shape.vertices = shape.vertices.map((vertex) => vertex + offset).toList();
       });
@@ -68,6 +68,14 @@ class Game {
 //    world.addSystem(new DebugBodyDefRenderingSystem(canvas.context2D, sheet, bodyDefs));
 
     world.initialize();
+
+    new Timer(new Duration(seconds: 10), () {
+      loadSpritesheet('../assets/img/assetsv1').then((layer) {
+        sheet.add(layer);
+        BackgroundRenderingSystem bgSys = world.getSystem(BackgroundRenderingSystem);
+        bgSys.prepareBackground(1);
+      });
+    });
   }
 
   void initialUpdate(num time) {

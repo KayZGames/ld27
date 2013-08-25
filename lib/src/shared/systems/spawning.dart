@@ -60,7 +60,7 @@ class DestructionExplosionSpawningSystem extends EntityProcessingSystem {
 }
 
 class TruckSpawningSystem extends IntervalEntitySystem {
-  TruckSpawningSystem() : super(10000, Aspect.getEmpty());
+  TruckSpawningSystem() : super(2000, Aspect.getEmpty());
 
   void processEntities(_) {
     addNewEntity(world, [new Transform.w2d(random.nextDouble() * MAX_WIDTH, -20.0, 0.0), new Velocity(0.1, -PI), new BodyDef('truck_0'), new Health(3), new ExplosionOnDestruction()]);

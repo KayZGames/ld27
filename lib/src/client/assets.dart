@@ -34,6 +34,16 @@ Future<SpriteSheet> _createSpriteSheet(String path, Map<String, Map<String, Map<
   return completer.future;
 }
 
+class LayeredSpriteSheet {
+  List<SpriteSheet> sheets;
+  LayeredSpriteSheet(SpriteSheet initialSpriteSheet) {
+    sheets = new List<SpriteSheet>();
+    sheets.add(initialSpriteSheet);
+  }
+  void add(SpriteSheet sheet) => sheets.insert(0, sheet);
+  SpriteSheet getLayerFor(String spriteId) => sheets.where((sheet) => sheet.sprites.containsKey(spriteId)).first;
+}
+
 class SpriteSheet {
   final ImageElement image;
   final Map<String, Sprite> sprites;
