@@ -43,7 +43,7 @@ class Game {
 
     var entity = addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 100.0, 0.0), new Velocity(0.0, 0.0), new BodyDef('ship_0')]);
     addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 165.0, 0.0), new Velocity(0.0, 0.0), new Gun(1, 500.0)], player: PLAYER_1);
-    addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, 0.0, 0.0), new Velocity(0.1, -PI), new BodyDef('truck_0'), new Health(3), new ExplosionOnDestruction()]);
+
 
     tm.register(entity, PLAYER_1);
 
@@ -52,14 +52,16 @@ class Game {
     // Logic
     world.addSystem(new MovementSystem());
     world.addSystem(new CollisionDetectionSystem(bodyDefs));
-    world.addSystem(new CollisionImpactSpawningSystem());
     world.addSystem(new DestroyOnCollisionSystem());
-    world.addSystem(new DestructionExplosionSpawningSystem());
     world.addSystem(new DestructionSystem());
     world.addSystem(new DamageToHealthSystem());
-    world.addSystem(new BulletSpawningSystem());
     world.addSystem(new CooldownSystem());
     world.addSystem(new ExpirationSystem());
+    // spawning
+    world.addSystem(new CollisionImpactSpawningSystem());
+    world.addSystem(new DestructionExplosionSpawningSystem());
+    world.addSystem(new BulletSpawningSystem());
+    world.addSystem(new TruckSpawningSystem());
     // Rendering
     world.addSystem(new BackgroundRenderingSystem(canvas.context2D, sheet));
     world.addSystem(new EntityRenderingSystem(canvas.context2D, sheet));
