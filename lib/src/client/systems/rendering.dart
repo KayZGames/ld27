@@ -89,3 +89,49 @@ class BackgroundRenderingSystem extends VoidEntitySystem {
     }
   }
 }
+
+class AchievementRenderSystem extends EntityProcessingSystem {
+  ComponentMapper<Achievement> am;
+  ComponentMapper<ExpirationTimer> em;
+  CanvasRenderingContext2D context;
+  Map<String, String> achievements;
+  CqWrapper _cq;
+  bool active = false;
+  AchievementRenderSystem(this.context) : super(Aspect.getAspectForAllOf([Achievement, ExpirationTimer]));
+
+  void initialize() {
+    am = new ComponentMapper<Achievement>(Achievement, world);
+    em = new ComponentMapper<ExpirationTimer>(ExpirationTimer, world);
+
+    _cq = cq(200, 200);
+    _cq.context2d..textBaseline = 'top'
+                 ..font = '16px Verdana'
+                 ..fillStyle = '#d3d1cc'
+                 ..lineWidth = 5;
+  }
+
+  void begin() {
+    _cq.clear();
+  }
+
+  void processEntity(Entity entity) {
+    var a = am.get(entity);
+    var e = em.get(entity);
+    var bounds1 = _cq.textBoundaries(a.playtime, 180);
+    var bounds2 = _cq.textBoundaries(achievements[a.id], 180);
+    var totalHeight = 20 + bounds1.height + bounds2.height;
+
+    var ratio = max(1.0, 4 * e.time / e.maxTime);
+    _cq.context2d.globalAlpha = ratio;
+    _cq.roundRect(5, 5, 190, totalHeight, 15, strokeStyle: '#d3d1cc', fillStyle: '#ffffff');
+    _cq.wrappedText(a.playtime, 10, 10, 200);
+    _cq.wrappedText(achievements[a.id], 10, bounds1.height + 10, 200);
+    context.drawImage(_cq.canvas, 5, ease.outElastic(e.time / e.maxTime, totalHeight, -totalHeight));
+  }
+
+  activate() {
+    active = true;
+  }
+
+  bool checkProcessing() => active;
+}

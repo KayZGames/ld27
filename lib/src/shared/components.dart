@@ -17,8 +17,10 @@ class Velocity extends Component {
 }
 
 class ExpirationTimer extends Component {
-  double time;
-  ExpirationTimer(this.time);
+  double time, maxTime;
+  ExpirationTimer(this.maxTime) {
+    time = maxTime;
+  }
 }
 
 class BodyDef extends Component {
@@ -46,6 +48,12 @@ class Health extends Component {
 class Sound extends Component {
   final String clipName;
   Sound(this.clipName);
+}
+
+class Achievement extends Component {
+  String id;
+  String playtime;
+  Achievement(this.id, this.playtime);
 }
 
 class Effect extends Component {}

@@ -1,5 +1,9 @@
 part of client;
 
+Future<Map<String, String>> loadAchievements() {
+  return HttpRequest.getString('../assets/achievements.json').then(_processAssets);
+}
+
 Future<Map<String, List<Polygon>>> loadPolygons(String path) {
   return HttpRequest.getString('$path.polygons.json').then(_processAssets).then(_createPolygonMap);
 }

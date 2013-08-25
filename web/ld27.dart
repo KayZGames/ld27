@@ -1,8 +1,5 @@
 library ld27;
 
-import 'dart:async';
-import 'dart:math';
-
 import 'package:ld27/client.dart';
 
 void main() {
@@ -30,10 +27,11 @@ class Game {
   num lastTime = 0;
   World world = new World();
 
-  Game(this.canvas, this.sheet, this.bodyDefs);
+  Game(this.canvas, this.sheet, this.bodyDefs) {
+    audioManager = createAudioManager();
+  }
 
   void init() {
-    initAudioManager();
     bodyDefs.forEach((bodyId, shapes) {
       var offset = sheet.getLayerFor('$bodyId.png').sprites['$bodyId.png'].offset;
       shapes.forEach((shape) {
@@ -65,27 +63,20 @@ class Game {
     world.addSystem(new DestructionExplosionSpawningSystem());
     world.addSystem(new BulletSpawningSystem());
     world.addSystem(new TruckSpawningSystem());
+    world.addSystem(new FeatureActivationSystem(_achievementLoader, _graphicsLoader, sheet, audioManager));
     // Sound
     world.addSystem(new SoundSystem(audioManager));
     // Rendering
     world.addSystem(new BackgroundRenderingSystem(canvas.context2D, sheet));
     world.addSystem(new EntityRenderingSystem(canvas.context2D, sheet));
+    world.addSystem(new AchievementRenderSystem(canvas.context2D));
 //    world.addSystem(new DebugBodyDefRenderingSystem(canvas.context2D, sheet, bodyDefs));
 
     world.initialize();
-
-    new Timer(new Duration(seconds: 10), () {
-      loadSpritesheet('../assets/img/assetsv1').then((layer) {
-        sheet.add(layer);
-        BackgroundRenderingSystem bgSystem = world.getSystem(BackgroundRenderingSystem);
-        bgSystem.prepareBackground(1);
-      });
-    });
-    new Timer(new Duration(seconds: 20), () {
-      SoundSystem soundSystem = world.getSystem(SoundSystem);
-      soundSystem.activate();
-    });
   }
+
+  Future<Map<String, String>> _achievementLoader() => loadAchievements().then(setAchievementsToAchivementRenderSystem);
+  Future<SpriteSheet> _graphicsLoader(int version) => loadSpritesheet('../assets/img/assetsv$version');
 
   void initialUpdate(num time) {
     world.delta = 16.66;
@@ -101,23 +92,8 @@ class Game {
     window.requestAnimationFrame(update);
   }
 
-  void initAudioManager() {
-    audioManager = createAudioManager();
-    var audio = new AudioElement();
-    var fileExtension = 'ogg';
-    var goodAnswer = ['probably', 'maybe'];
-    if (goodAnswer.contains(audio.canPlayType('audio/ogg'))) {
-      fileExtension = 'ogg';
-    } else if (goodAnswer.contains(audio.canPlayType('audio/mpeg; codecs="mp3"'))) {
-      fileExtension = 'mp3';
-    } else if (goodAnswer.contains(audio.canPlayType('audio/mp3'))) {
-      fileExtension = 'mp3';
-    }
-
-    for (int i = 0; i < SOUNDS_EXPLOSION; i++) {
-      audioManager.makeClip('explosion_$i', 'explosion_$i.$fileExtension').load();
-    }
-    audioManager.makeClip('shoot_0', 'shoot_0.$fileExtension').load();
-    audioManager.makeClip('collision_0', 'collision_0.$fileExtension').load();
+  void setAchievementsToAchivementRenderSystem(Map<String, String> achievements) {
+    AchievementRenderSystem system = world.getSystem(AchievementRenderSystem);
+    system.achievements = achievements;
   }
 }
