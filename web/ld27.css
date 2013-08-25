@@ -10,4 +10,5 @@ body {
 #canvascontainer, #gamecontainer {
   width: 600px;
   height: 720px;
+  margin: 0px auto;
 }
