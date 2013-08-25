@@ -35,7 +35,7 @@ class Game {
     world.addManager(new PlayerManager());
 
     var entity = addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 100.0, 0.0), new Velocity(0.0, 0.0), new BodyDef('ship_0')]);
-    addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 150.0, 0.0), new Velocity(0.0, 0.0), new Gun(500.0)], player: PLAYER_1);
+    addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 165.0, 0.0), new Velocity(0.0, 0.0), new Gun(500.0)], player: PLAYER_1);
     addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, 0.0, 0.0), new Velocity(0.1, -PI), new BodyDef('truck_0')]);
 
     tm.register(entity, PLAYER_1);
@@ -44,6 +44,7 @@ class Game {
     world.addSystem(new MouseInputHandlingSystem(canvas));
     // Logic
     world.addSystem(new MovementSystem());
+    world.addSystem(new CollisionDetectionSystem(bodyDefs, sheet));
     world.addSystem(new BulletSpawningSystem());
     world.addSystem(new CooldownSystem());
     world.addSystem(new ExpirationSystem());

@@ -31,7 +31,7 @@ class DebugBodyDefRenderingSystem extends EntityProcessingSystem {
   SpriteSheet sheet;
   Map<String, List<Polygon>> bodyDefs;
 
-  DebugBodyDefRenderingSystem(this.context, this.sheet, this.bodyDefs) : super(Aspect.getAspectForAllOf([Transform, BodyDef]));
+  DebugBodyDefRenderingSystem(this.context, this.sheet, this.bodyDefs) : super(Aspect.getAspectForAllOf([Transform, BodyDef]).exclude([Effect]));
 
   void initialize() {
     tm = new ComponentMapper<Transform>(Transform, world);

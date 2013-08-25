@@ -1,8 +1,5 @@
 part of client;
 
-
-
-
 Future<Map<String, List<Polygon>>> loadPolygons(String path) {
   return HttpRequest.getString('$path.polygons.json').then(_processAssets).then(_createPolygonMap);
 }
@@ -15,16 +12,6 @@ Future<Map<String, List<Polygon>>> _createPolygonMap(Map<String, List<Map<String
     result[bodyId] = polygonList;
   });
   return new Future.value(result);
-}
-
-class Polygon {
-  List<Point> vertices;
-  Polygon(List<double> points) {
-    vertices = new List(points.length ~/ 2);
-    for (int i = 0; i < points.length; i+=2) {
-      vertices[i ~/ 2] = new Point(points[i], points[i+1]);
-    }
-  }
 }
 
 Future<SpriteSheet> loadSpritesheet(String path) {
@@ -56,6 +43,7 @@ class SpriteSheet {
 class Sprite {
   Rect src;
   Rect dst;
+  Vector2 offset;
   Sprite(Map<String, dynamic> singleAsset) {
     _Asset asset = new _Asset(singleAsset);
     var frame = asset.frame;
@@ -70,6 +58,7 @@ class Sprite {
 
     src = new Rect(frame.x, frame.y, frame.w, frame.h);
     dst = new Rect(cx, cy, frame.w, frame.h);
+    offset = new Vector2(cx.toDouble(), cy.toDouble());
   }
 }
 

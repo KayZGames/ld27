@@ -81,12 +81,3 @@ class MovementSystem extends EntityProcessingSystem {
     t.position = pos;
   }
 }
-
-class CollisionDetectionSystem extends EntityProcessingSystem {
-  CollisionDetectionSystem() : super(Aspect.getAspectForAllOf([Transform, BodyDef]));
-
-
-  void processEntity(Entity entity) {
-
-  }
-}

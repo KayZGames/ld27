@@ -24,3 +24,5 @@ class BodyDef extends Component {
   String bodyId;
   BodyDef(this.bodyId);
 }
+
+class Effect extends Component {}

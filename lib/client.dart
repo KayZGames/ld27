@@ -9,8 +9,8 @@ import 'dart:math';
 import 'package:ld27/shared.dart';
 export 'package:ld27/shared.dart';
 import 'package:canvas_query/canvas_query.dart';
-import 'package:dartemis_toolbox/ease.dart' as ease;
 
 part 'src/client/assets.dart';
+part 'src/client/systems/collisions.dart';
 part 'src/client/systems/input.dart';
 part 'src/client/systems/rendering.dart';
