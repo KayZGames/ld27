@@ -64,6 +64,7 @@ class DestructionExplosionSpawningSystem extends EntityProcessingSystem {
 }
 
 class TruckSpawningSystem extends IntervalEntitySystem {
+  bool active = true;
   TruckSpawningSystem() : super(5000, Aspect.getEmpty());
 
   void processEntities(_) {
@@ -74,6 +75,10 @@ class TruckSpawningSystem extends IntervalEntitySystem {
                          new ExplosionOnDestruction(),
                          new ExpirationTimer(15000.0)]);
   }
+  void deactivate() {
+    active = false;
+  }
+  bool checkProcessing() => active && super.checkProcessing();
 }
 
 class PlaneSpawningSystem extends IntervalEntitySystem {

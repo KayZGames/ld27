@@ -82,9 +82,11 @@ class BackgroundRenderingSystem extends VoidEntitySystem {
     var bgContext = bgLayer.context2D;
     bgContext.clearRect(0, 0, MAX_WIDTH, MAX_HEIGHT);
     SpriteSheet layer = sheet.getLayerFor('bg_rect_0.png');
-    for (int y = 0; y < MAX_HEIGHT / 16; y++) {
-      for (int x = 0; x < MAX_WIDTH / 16; x++) {
-        bgContext.drawImageToRect(layer.image, new Rect(x * 16, y * 16, 16, 16), sourceRect: layer.sprites['bg_rect_${random.nextInt(bgCount)}.png'].src);
+    int width = layer.sprites['bg_rect_0.png'].src.width;
+    int height= layer.sprites['bg_rect_0.png'].src.height;
+    for (int y = 0; y < MAX_HEIGHT / height; y++) {
+      for (int x = 0; x < MAX_WIDTH / width; x++) {
+        bgContext.drawImageToRect(layer.image, new Rect(x * width, y * height, width, height), sourceRect: layer.sprites['bg_rect_${random.nextInt(bgCount)}.png'].src);
       }
     }
   }

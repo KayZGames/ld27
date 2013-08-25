@@ -18,6 +18,7 @@ class FeatureActivationSystem extends IntervalEntitySystem {
   void initialize() {
     features.add(_achivementFeature);
     features.add(_graphicsUpdateFeature);
+    features.add(_graphicsUpdateFeature);
     features.add(_soundActivationFeature);
     features.add(_tankSpawnerActivationFeature);
     features.add(_planeSpawnerActivationFeature);
@@ -69,7 +70,7 @@ class FeatureActivationSystem extends IntervalEntitySystem {
   void _activateGraphicsUpdate(Future<SpriteSheet> layerFuture) {
     layerFuture.then((layer) {
       sheet.add(layer);
-      (world.getSystem(BackgroundRenderingSystem) as BackgroundRenderingSystem).prepareBackground(graphicsVersion);
+      (world.getSystem(BackgroundRenderingSystem) as BackgroundRenderingSystem).prepareBackground(1);
     });
   }
 
