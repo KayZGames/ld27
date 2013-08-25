@@ -15,7 +15,7 @@ void main() {
       Game game = new Game(canvas, result[0], result[1]);
       game.init();
 
-      window.requestAnimationFrame(game.update);
+      window.requestAnimationFrame(game.initialUpdate);
     });
 
   });
@@ -42,8 +42,8 @@ class Game {
     world.addManager(new PlayerManager());
 
     var entity = addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 100.0, 0.0), new Velocity(0.0, 0.0), new BodyDef('ship_0')]);
-    addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 165.0, 0.0), new Velocity(0.0, 0.0), new Gun(500.0)], player: PLAYER_1);
-    addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, 0.0, 0.0), new Velocity(0.1, -PI), new BodyDef('truck_0')]);
+    addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 165.0, 0.0), new Velocity(0.0, 0.0), new Gun(1, 500.0)], player: PLAYER_1);
+    addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, 0.0, 0.0), new Velocity(0.1, -PI), new BodyDef('truck_0'), new Health(3), new ExplosionOnDestruction()]);
 
     tm.register(entity, PLAYER_1);
 
@@ -54,6 +54,9 @@ class Game {
     world.addSystem(new CollisionDetectionSystem(bodyDefs));
     world.addSystem(new CollisionImpactSpawningSystem());
     world.addSystem(new DestroyOnCollisionSystem());
+    world.addSystem(new DestructionExplosionSpawningSystem());
+    world.addSystem(new DestructionSystem());
+    world.addSystem(new DamageToHealthSystem());
     world.addSystem(new BulletSpawningSystem());
     world.addSystem(new CooldownSystem());
     world.addSystem(new ExpirationSystem());
@@ -63,6 +66,13 @@ class Game {
 //    world.addSystem(new DebugBodyDefRenderingSystem(canvas.context2D, sheet, bodyDefs));
 
     world.initialize();
+  }
+
+  void initialUpdate(num time) {
+    world.delta = 16.66;
+    lastTime = time;
+    world.process();
+    window.requestAnimationFrame(update);
   }
 
   void update(num time) {

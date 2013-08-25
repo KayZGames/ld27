@@ -20,7 +20,8 @@ class BulletSpawningSystem extends EntityProcessingSystem {
                          new BodyDef('bullet_${random.nextInt(4)}'),
                          new ExpirationTimer(2000.0),
                          new DestroyOnCollision(),
-                         new ImpactOnCollision()]);
+                         new ImpactOnCollision(),
+                         new DamageOnCollision(g.damage)]);
   }
 }
 
@@ -35,6 +36,27 @@ class CollisionImpactSpawningSystem extends EntityProcessingSystem {
 
   void processEntity(Entity entity) {
     var pos = tm.get(entity).position;
-    addNewEntity(world, [new Transform.w2d(pos.x, pos.y, 0.0), new BodyDef('impact_${random.nextInt(8)}'), new Effect(), new ExpirationTimer(100.0)]);
+    addNewEntity(world, [new Transform.w2d(pos.x, pos.y, 0.0), new BodyDef('impact_${random.nextInt(8)}'), new Effect(), new ExpirationTimer(50 + random.nextDouble() * 100)]);
+    addNewEntity(world, [new Transform.w2d(pos.x, pos.y, 0.0), new BodyDef('impact_${random.nextInt(8)}'), new Effect(), new ExpirationTimer(50 + random.nextDouble() * 100)]);
+    addNewEntity(world, [new Transform.w2d(pos.x, pos.y, 0.0), new BodyDef('impact_${random.nextInt(8)}'), new Effect(), new ExpirationTimer(50 + random.nextDouble() * 100)]);
+  }
+}
+
+
+
+class DestructionExplosionSpawningSystem extends EntityProcessingSystem {
+  ComponentMapper<Transform> tm;
+
+  DestructionExplosionSpawningSystem() : super(Aspect.getAspectForAllOf([Destruction, ExplosionOnDestruction, Transform]));
+
+  void initialize() {
+    tm = new ComponentMapper<Transform>(Transform, world);
+  }
+
+  void processEntity(Entity entity) {
+    var pos = tm.get(entity).position;
+    addNewEntity(world, [new Transform.w2d(pos.x, pos.y, 0.0), new BodyDef('explosion_${random.nextInt(8)}'), new Effect(), new ExpirationTimer(50 + random.nextDouble() * 100)]);
+    addNewEntity(world, [new Transform.w2d(pos.x, pos.y, 0.0), new BodyDef('explosion_${random.nextInt(8)}'), new Effect(), new ExpirationTimer(50 + random.nextDouble() * 100)]);
+    addNewEntity(world, [new Transform.w2d(pos.x, pos.y, 0.0), new BodyDef('explosion_${random.nextInt(8)}'), new Effect(), new ExpirationTimer(50 + random.nextDouble() * 100)]);
   }
 }

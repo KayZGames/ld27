@@ -2,7 +2,8 @@ part of shared;
 
 class Gun extends Component {
   double cooldown;
-  Gun(this.cooldown);
+  int damage;
+  Gun(this.damage, this.cooldown);
 }
 
 class Cooldown extends Component {
@@ -25,7 +26,26 @@ class BodyDef extends Component {
   BodyDef(this.bodyId);
 }
 
+class Damage extends Component {
+  int value;
+  Damage(this.value);
+}
+
+class DamageOnCollision extends Component {
+  int value;
+  DamageOnCollision(this.value);
+}
+
+class Health extends Component {
+  int maxHealth, currentHealth;
+  Health(this.maxHealth) {
+    currentHealth = maxHealth;
+  }
+}
+
 class Effect extends Component {}
 class Collision extends Component {}
+class Destruction extends Component {}
 class ImpactOnCollision extends Component {}
 class DestroyOnCollision extends Component {}
+class ExplosionOnDestruction extends Component {}

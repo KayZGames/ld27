@@ -3,6 +3,7 @@ part of shared;
 class CollisionDetectionSystem extends EntitySystem {
   ComponentMapper<Transform> tm;
   ComponentMapper<BodyDef> bm;
+  ComponentMapper<DamageOnCollision> docm;
   Map<String, List<Polygon>> bodyDefs;
 
   CollisionDetectionSystem(this.bodyDefs) : super(Aspect.getAspectForAllOf([Transform, BodyDef]).exclude([Effect]));
@@ -10,6 +11,7 @@ class CollisionDetectionSystem extends EntitySystem {
   void initialize() {
     tm = new ComponentMapper<Transform>(Transform, world);
     bm = new ComponentMapper<BodyDef>(BodyDef, world);
+    docm = new ComponentMapper<DamageOnCollision>(DamageOnCollision, world);
   }
 
   void processEntities(ReadOnlyBag<Entity> entities) {
@@ -32,11 +34,20 @@ class CollisionDetectionSystem extends EntitySystem {
           if (doShapesCollide(shapes1, pos1, shapes2, pos2)) {
             entity1.addComponent(new Collision());
             entity2.addComponent(new Collision());
+            transferDamage(entity1, entity2);
+            transferDamage(entity2, entity1);
             entity1.changedInWorld();
             entity2.changedInWorld();
           }
         }
       }
+    }
+  }
+
+  void transferDamage(entity1, entity2) {
+    var dmg = docm.getSafe(entity1);
+    if (null != dmg) {
+      entity2.addComponent(new Damage(dmg.value));
     }
   }
 

@@ -59,3 +59,32 @@ class MovementSystem extends EntityProcessingSystem {
     t.position = pos;
   }
 }
+
+class DamageToHealthSystem extends EntityProcessingSystem {
+  ComponentMapper<Health> hm;
+  ComponentMapper<Damage> dm;
+  DamageToHealthSystem() : super(Aspect.getAspectForAllOf([Health, Damage]));
+
+  void initialize() {
+    hm = new ComponentMapper<Health>(Health, world);
+    dm = new ComponentMapper<Damage>(Damage, world);
+  }
+
+  void processEntity(Entity entity) {
+    var h = hm.get(entity);
+    var d = dm.get(entity);
+
+    h.currentHealth -= d.value;
+
+    entity.removeComponent(Damage);
+    if (h.currentHealth <= 0) {
+      entity.addComponent(new Destruction());
+    }
+    entity.changedInWorld();
+  }
+}
+
+class DestructionSystem extends EntityProcessingSystem {
+  DestructionSystem() : super(Aspect.getAspectForAllOf([Destruction]));
+  void processEntity(Entity entity) => entity.deleteFromWorld();
+}
