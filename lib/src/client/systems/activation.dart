@@ -19,6 +19,8 @@ class FeatureActivationSystem extends IntervalEntitySystem {
     features.add(_achivementFeature);
     features.add(_graphicsUpdateFeature);
     features.add(_soundActivationFeature);
+    features.add(_tankSpawnerActivationFeature);
+    features.add(_planeSpawnerActivationFeature);
 
     nextFeatureIndex = random.nextInt(features.length);
     features[nextFeatureIndex].preparationResult = features[nextFeatureIndex].prepare();
@@ -54,6 +56,16 @@ class FeatureActivationSystem extends IntervalEntitySystem {
     return new Feature('sound', _prepareSoundActivation, _activateSound);
   }
 
+  Feature get _planeSpawnerActivationFeature {
+    return new Feature('planes', _noopPrepare, _activatePlaneSpawner);
+  }
+
+  Feature get _tankSpawnerActivationFeature {
+    return new Feature('tanks', _noopPrepare, _activateTankSpawner);
+  }
+
+  void _noopPrepare() {}
+
   void _activateGraphicsUpdate(Future<SpriteSheet> layerFuture) {
     layerFuture.then((layer) {
       sheet.add(layer);
@@ -86,6 +98,16 @@ class FeatureActivationSystem extends IntervalEntitySystem {
       SoundSystem soundSystem = world.getSystem(SoundSystem);
       soundSystem.activate();
     });
+  }
+
+  void _activatePlaneSpawner(_) {
+    PlaneSpawningSystem system = world.getSystem(PlaneSpawningSystem);
+    system.activate();
+  }
+
+  void _activateTankSpawner(_) {
+    TankSpawningSystem system = world.getSystem(TankSpawningSystem);
+    system.activate();
   }
 }
 

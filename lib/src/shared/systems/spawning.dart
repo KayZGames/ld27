@@ -16,7 +16,7 @@ class BulletSpawningSystem extends EntityProcessingSystem {
     entity.addComponent(new Cooldown(g.cooldown));
     entity.changedInWorld();
     addNewEntity(world, [new Transform.w2d(pos.x, pos.y, 0.0),
-                         new Velocity(0.4, 0.0),
+                         new Velocity(0.3, 0.0),
                          new BodyDef('bullet_${random.nextInt(4)}'),
                          new ExpirationTimer(2000.0),
                          new DestroyOnCollision(),
@@ -64,14 +64,51 @@ class DestructionExplosionSpawningSystem extends EntityProcessingSystem {
 }
 
 class TruckSpawningSystem extends IntervalEntitySystem {
-  TruckSpawningSystem() : super(2000, Aspect.getEmpty());
+  TruckSpawningSystem() : super(5000, Aspect.getEmpty());
 
   void processEntities(_) {
-    addNewEntity(world, [new Transform.w2d(random.nextDouble() * MAX_WIDTH, -20.0, 0.0),
-                         new Velocity(0.1, -PI),
+    addNewEntity(world, [new Transform.w2d(random.nextDouble() * MAX_WIDTH, -20.0, PI),
+                         new Velocity(0.05 + random.nextDouble() * 0.025, -PI),
                          new BodyDef('truck_0'),
+                         new Health(2),
+                         new ExplosionOnDestruction(),
+                         new ExpirationTimer(15000.0)]);
+  }
+}
+
+class PlaneSpawningSystem extends IntervalEntitySystem {
+  bool active = false;
+  PlaneSpawningSystem() : super(6000, Aspect.getEmpty());
+
+  void processEntities(_) {
+    addNewEntity(world, [new Transform.w2d(random.nextDouble() * MAX_WIDTH, -20.0, PI),
+                         new Velocity(0.1 + random.nextDouble() * 0.05, -PI),
+                         new BodyDef('plane_${random.nextInt(2)}'),
                          new Health(3),
                          new ExplosionOnDestruction(),
-                         new ExpirationTimer(10000.0)]);
+                         new ExpirationTimer(15000.0)]);
   }
+  void activate() {
+    active = true;
+  }
+  bool checkProcessing() => active && super.checkProcessing();
+}
+
+class TankSpawningSystem extends IntervalEntitySystem {
+  bool active = false;
+  TankSpawningSystem() : super(7000, Aspect.getEmpty());
+
+  void processEntities(_) {
+    addNewEntity(world, [new Transform.w2d(random.nextDouble() * MAX_WIDTH, -20.0, PI),
+                         new Velocity(0.06 + random.nextDouble() * 0.04, -PI),
+                         new BodyDef('tank_${random.nextInt(2)}'),
+                         new Health(5),
+                         new ExplosionOnDestruction(),
+                         new ExpirationTimer(15000.0)]);
+  }
+
+  void activate() {
+    active = true;
+  }
+  bool checkProcessing() => active && super.checkProcessing();
 }

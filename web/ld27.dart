@@ -44,7 +44,7 @@ class Game {
     world.addManager(new PlayerManager());
 
     var entity = addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 100.0, 0.0), new Velocity(0.0, 0.0), new BodyDef('ship_0')]);
-    addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 165.0, 0.0), new Velocity(0.0, 0.0), new Gun(1, 500.0)], player: PLAYER_1);
+    addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 170.0, 0.0), new Velocity(0.0, 0.0), new Gun(1, 500.0)], player: PLAYER_1);
 
     tm.register(entity, PLAYER_1);
 
@@ -63,6 +63,8 @@ class Game {
     world.addSystem(new DestructionExplosionSpawningSystem());
     world.addSystem(new BulletSpawningSystem());
     world.addSystem(new TruckSpawningSystem());
+    world.addSystem(new TankSpawningSystem());
+    world.addSystem(new PlaneSpawningSystem());
     world.addSystem(new FeatureActivationSystem(_achievementLoader, _graphicsLoader, sheet, audioManager));
     // Sound
     world.addSystem(new SoundSystem(audioManager));
@@ -70,7 +72,7 @@ class Game {
     world.addSystem(new BackgroundRenderingSystem(canvas.context2D, sheet));
     world.addSystem(new EntityRenderingSystem(canvas.context2D, sheet));
     world.addSystem(new AchievementRenderSystem(canvas.context2D));
-//    world.addSystem(new DebugBodyDefRenderingSystem(canvas.context2D, sheet, bodyDefs));
+//    world.addSystem(new DebugBodyDefRenderingSystem(canvas.context2D, bodyDefs));
 
     world.initialize();
   }
