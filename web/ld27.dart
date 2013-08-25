@@ -30,6 +30,13 @@ class Game {
   Game(this.canvas, this.sheet, this.bodyDefs);
 
   void init() {
+    bodyDefs.forEach((bodyId, shapes) {
+      var offset = sheet.sprites['$bodyId.png'].offset;
+      shapes.forEach((shape) {
+        shape.vertices = shape.vertices.map((vertex) => vertex + offset).toList();
+      });
+    });
+
     var tm = new TagManager();
     world.addManager(tm);
     world.addManager(new PlayerManager());
@@ -44,7 +51,9 @@ class Game {
     world.addSystem(new MouseInputHandlingSystem(canvas));
     // Logic
     world.addSystem(new MovementSystem());
-    world.addSystem(new CollisionDetectionSystem(bodyDefs, sheet));
+    world.addSystem(new CollisionDetectionSystem(bodyDefs));
+    world.addSystem(new CollisionImpactSpawningSystem());
+    world.addSystem(new DestroyOnCollisionSystem());
     world.addSystem(new BulletSpawningSystem());
     world.addSystem(new CooldownSystem());
     world.addSystem(new ExpirationSystem());

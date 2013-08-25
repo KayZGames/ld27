@@ -13,7 +13,9 @@ export 'package:vector_math/vector_math.dart';
 
 part 'src/shared/assets.dart';
 part 'src/shared/components.dart';
+part 'src/shared/systems/collisions.dart';
 part 'src/shared/systems/game_logic.dart';
+part 'src/shared/systems/spawning.dart';
 
 const MAX_WIDTH = 600;
 const MAX_HEIGHT = 720;

@@ -43,13 +43,12 @@ class DebugBodyDefRenderingSystem extends EntityProcessingSystem {
     var b = bm.get(entity);
 
     var pos = t.position;
-    var sprite = sheet.sprites['${b.bodyId}.png'];
 
     bodyDefs[b.bodyId].forEach((Polygon polygon) {
       context.beginPath();
-      context.moveTo(pos.x + polygon.vertices.last.x + sprite.dst.left, pos.y + polygon.vertices.last.y + sprite.dst.top);
+      context.moveTo(pos.x + polygon.vertices.last.x, pos.y + polygon.vertices.last.y);
       polygon.vertices.forEach((vertex) {
-        context.lineTo(pos.x + vertex.x + sprite.dst.left, pos.y + vertex.y + sprite.dst.top);
+        context.lineTo(pos.x + vertex.x, pos.y + vertex.y);
       });
       context.stroke();
     });

@@ -11,6 +11,5 @@ export 'package:ld27/shared.dart';
 import 'package:canvas_query/canvas_query.dart';
 
 part 'src/client/assets.dart';
-part 'src/client/systems/collisions.dart';
 part 'src/client/systems/input.dart';
 part 'src/client/systems/rendering.dart';

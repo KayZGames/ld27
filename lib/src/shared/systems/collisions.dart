@@ -1,12 +1,11 @@
-part of client;
+part of shared;
 
 class CollisionDetectionSystem extends EntitySystem {
   ComponentMapper<Transform> tm;
   ComponentMapper<BodyDef> bm;
   Map<String, List<Polygon>> bodyDefs;
-  SpriteSheet sheet;
 
-  CollisionDetectionSystem(this.bodyDefs, this.sheet) : super(Aspect.getAspectForAllOf([Transform, BodyDef]).exclude([Effect]));
+  CollisionDetectionSystem(this.bodyDefs) : super(Aspect.getAspectForAllOf([Transform, BodyDef]).exclude([Effect]));
 
   void initialize() {
     tm = new ComponentMapper<Transform>(Transform, world);
@@ -29,12 +28,12 @@ class CollisionDetectionSystem extends EntitySystem {
 
           var shapes1 = bodyDefs[bodyId1];
           var shapes2 = bodyDefs[bodyId2];
-          // TODO offset is needed in bodyDefs
-          var offset1 = sheet.sprites['$bodyId1.png'].offset;
-          var offset2 = sheet.sprites['$bodyId2.png'].offset;
 
-          if (doShapesCollide(shapes1, pos1 + offset1, shapes2, pos2 + offset2)) {
-            addNewEntity(world, [new Transform.w2d(pos1.x, pos1.y, 0.0), new Velocity(0.0, 0.0), new BodyDef('impact_${random.nextInt(8)}'), new Effect(), new ExpirationTimer(100.0)]);
+          if (doShapesCollide(shapes1, pos1, shapes2, pos2)) {
+            entity1.addComponent(new Collision());
+            entity2.addComponent(new Collision());
+            entity1.changedInWorld();
+            entity2.changedInWorld();
           }
         }
       }
@@ -96,4 +95,12 @@ class CollisionDetectionSystem extends EntitySystem {
   }
 
   bool checkProcessing() => true;
+}
+
+class DestroyOnCollisionSystem extends EntityProcessingSystem {
+  DestroyOnCollisionSystem() : super(Aspect.getAspectForAllOf([Collision, DestroyOnCollision]));
+
+  void processEntity(Entity entity) {
+    entity.deleteFromWorld();
+  }
 }

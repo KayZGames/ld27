@@ -26,3 +26,6 @@ class BodyDef extends Component {
 }
 
 class Effect extends Component {}
+class Collision extends Component {}
+class ImpactOnCollision extends Component {}
+class DestroyOnCollision extends Component {}
