@@ -22,4 +22,6 @@ const MAX_HEIGHT = 720;
 
 const PLAYER_1 = 'player1';
 
+const SOUNDS_EXPLOSION = 4;
+
 Random random = new Random();

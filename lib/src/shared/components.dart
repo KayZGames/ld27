@@ -43,6 +43,11 @@ class Health extends Component {
   }
 }
 
+class Sound extends Component {
+  final String clipName;
+  Sound(this.clipName);
+}
+
 class Effect extends Component {}
 class Collision extends Component {}
 class Destruction extends Component {}

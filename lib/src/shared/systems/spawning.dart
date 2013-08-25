@@ -22,6 +22,7 @@ class BulletSpawningSystem extends EntityProcessingSystem {
                          new DestroyOnCollision(),
                          new ImpactOnCollision(),
                          new DamageOnCollision(g.damage)]);
+    addNewEntity(world, [new Sound('shoot_0')]);
   }
 }
 
@@ -39,6 +40,7 @@ class CollisionImpactSpawningSystem extends EntityProcessingSystem {
     addNewEntity(world, [new Transform.w2d(pos.x, pos.y, 0.0), new BodyDef('impact_${random.nextInt(8)}'), new Effect(), new ExpirationTimer(50 + random.nextDouble() * 100)]);
     addNewEntity(world, [new Transform.w2d(pos.x, pos.y, 0.0), new BodyDef('impact_${random.nextInt(8)}'), new Effect(), new ExpirationTimer(50 + random.nextDouble() * 100)]);
     addNewEntity(world, [new Transform.w2d(pos.x, pos.y, 0.0), new BodyDef('impact_${random.nextInt(8)}'), new Effect(), new ExpirationTimer(50 + random.nextDouble() * 100)]);
+    addNewEntity(world, [new Sound('collision_0')]);
   }
 }
 
@@ -56,6 +58,8 @@ class DestructionExplosionSpawningSystem extends EntityProcessingSystem {
     addNewEntity(world, [new Transform.w2d(pos.x, pos.y, 0.0), new BodyDef('explosion_${random.nextInt(8)}'), new Effect(), new ExpirationTimer(50 + random.nextDouble() * 100)]);
     addNewEntity(world, [new Transform.w2d(pos.x, pos.y, 0.0), new BodyDef('explosion_${random.nextInt(8)}'), new Effect(), new ExpirationTimer(50 + random.nextDouble() * 100)]);
     addNewEntity(world, [new Transform.w2d(pos.x, pos.y, 0.0), new BodyDef('explosion_${random.nextInt(8)}'), new Effect(), new ExpirationTimer(50 + random.nextDouble() * 100)]);
+    addNewEntity(world, [new Sound('explosion_${random.nextInt(SOUNDS_EXPLOSION)}')]);
+    addNewEntity(world, [new Sound('explosion_${random.nextInt(SOUNDS_EXPLOSION)}')]);
   }
 }
 
@@ -63,6 +67,11 @@ class TruckSpawningSystem extends IntervalEntitySystem {
   TruckSpawningSystem() : super(2000, Aspect.getEmpty());
 
   void processEntities(_) {
-    addNewEntity(world, [new Transform.w2d(random.nextDouble() * MAX_WIDTH, -20.0, 0.0), new Velocity(0.1, -PI), new BodyDef('truck_0'), new Health(3), new ExplosionOnDestruction()]);
+    addNewEntity(world, [new Transform.w2d(random.nextDouble() * MAX_WIDTH, -20.0, 0.0),
+                         new Velocity(0.1, -PI),
+                         new BodyDef('truck_0'),
+                         new Health(3),
+                         new ExplosionOnDestruction(),
+                         new ExpirationTimer(10000.0)]);
   }
 }
