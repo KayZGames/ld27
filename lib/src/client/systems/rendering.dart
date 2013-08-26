@@ -106,7 +106,7 @@ class AchievementRenderSystem extends EntityProcessingSystem {
     em = new ComponentMapper<ExpirationTimer>(ExpirationTimer, world);
 
     _cq = cq(200, 200);
-    _cq.context2d..textBaseline = 'top'
+    _cq.context2D..textBaseline = 'top'
                  ..font = '16px Verdana'
                  ..fillStyle = '#d3d1cc'
                  ..lineWidth = 5;
@@ -124,7 +124,7 @@ class AchievementRenderSystem extends EntityProcessingSystem {
     var totalHeight = 20 + bounds1.height + bounds2.height;
 
     var ratio = max(1.0, 4 * e.time / e.maxTime);
-    _cq.context2d.globalAlpha = ratio;
+    _cq.context2D.globalAlpha = ratio;
     _cq.roundRect(5, 5, 190, totalHeight, 15, strokeStyle: '#d3d1cc', fillStyle: '#ffffff');
     _cq.wrappedText(a.playtime, 10, 10, 200);
     _cq.wrappedText(achievements[a.id], 10, bounds1.height + 10, 200);

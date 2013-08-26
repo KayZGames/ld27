@@ -2,7 +2,8 @@ name: ld27
 description: A sample web application
 dependencies:
   browser: any
-  canvas_query: any
+  canvas_query:
+    path: ../CanvasQuery
   dartemis: any
   dartemis_toolbox: any
   simple_audio:

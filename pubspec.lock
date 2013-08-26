@@ -25,9 +25,11 @@ packages:
     source: hosted
     version: "0.6.19"
   canvas_query:
-    description: canvas_query
-    source: hosted
-    version: "0.1.3"
+    description:
+      path: "F:\\Programming\\workspaces\\dart\\ld27\\../CanvasQuery"
+      relative: true
+    source: path
+    version: "0.2.0-dev"
   crypto:
     description: crypto
     source: hosted
