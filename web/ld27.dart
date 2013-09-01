@@ -12,7 +12,7 @@ void main() {
       Game game = new Game(canvas, new LayeredSpriteSheet(result[0]), result[1]);
       game.init();
 
-      window.requestAnimationFrame(game.initialUpdate);
+      window.requestAnimationFrame(game.update);
     });
 
   });
@@ -24,7 +24,6 @@ class Game {
   Map<String, List<Polygon>> bodyDefs;
   AudioManager audioManager;
 
-  num lastTime = 0;
   World world = new World();
 
   Game(this.canvas, this.sheet, this.bodyDefs) {
@@ -75,21 +74,13 @@ class Game {
 //    world.addSystem(new DebugBodyDefRenderingSystem(canvas.context2D, bodyDefs));
 
     world.initialize();
+    world.delta = 16.66;
   }
 
   Future<Map<String, String>> _achievementLoader() => loadAchievements().then(setAchievementsToAchivementRenderSystem);
   Future<SpriteSheet> _graphicsLoader(int version) => loadSpritesheet('../assets/img/assetsv$version');
 
-  void initialUpdate(num time) {
-    world.delta = 16.66;
-    lastTime = time;
-    world.process();
-    window.requestAnimationFrame(update);
-  }
-
-  void update(num time) {
-    world.delta = time - lastTime;
-    lastTime = time;
+  void update(_) {
     world.process();
     window.requestAnimationFrame(update);
   }
