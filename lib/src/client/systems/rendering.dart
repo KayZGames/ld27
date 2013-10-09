@@ -22,7 +22,7 @@ class EntityRenderingSystem extends EntityProcessingSystem {
     var layer = sheet.getLayerFor(spriteId);
     var sprite = layer.sprites['${b.bodyId}.png'];
 
-    context.drawImageToRect(layer.image, new Rect(pos.x + sprite.dst.left, pos.y + sprite.dst.top, sprite.dst.width, sprite.dst.height), sourceRect: sprite.src);
+    context.drawImageToRect(layer.image, new Rectangle(pos.x + sprite.dst.left, pos.y + sprite.dst.top, sprite.dst.width, sprite.dst.height), sourceRect: sprite.src);
   }
 }
 
@@ -86,7 +86,7 @@ class BackgroundRenderingSystem extends VoidEntitySystem {
     int height= layer.sprites['bg_rect_0.png'].src.height;
     for (int y = 0; y < MAX_HEIGHT / height; y++) {
       for (int x = 0; x < MAX_WIDTH / width; x++) {
-        bgContext.drawImageToRect(layer.image, new Rect(x * width, y * height, width, height), sourceRect: layer.sprites['bg_rect_${random.nextInt(bgCount)}.png'].src);
+        bgContext.drawImageToRect(layer.image, new Rectangle(x * width, y * height, width, height), sourceRect: layer.sprites['bg_rect_${random.nextInt(bgCount)}.png'].src);
       }
     }
   }

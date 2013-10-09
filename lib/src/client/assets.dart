@@ -55,8 +55,8 @@ class SpriteSheet {
 }
 
 class Sprite {
-  Rect src;
-  Rect dst;
+  Rectangle src;
+  Rectangle dst;
   Vector2 offset;
   Sprite(Map<String, dynamic> singleAsset) {
     _Asset asset = new _Asset(singleAsset);
@@ -70,8 +70,8 @@ class Sprite {
       cy = -asset.frame.h ~/ 2;
     }
 
-    src = new Rect(frame.x, frame.y, frame.w, frame.h);
-    dst = new Rect(cx, cy, frame.w, frame.h);
+    src = new Rectangle(frame.x, frame.y, frame.w, frame.h);
+    dst = new Rectangle(cx, cy, frame.w, frame.h);
     offset = new Vector2(cx.toDouble(), cy.toDouble());
   }
 }
