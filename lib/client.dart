@@ -2,7 +2,7 @@ library client;
 
 import 'dart:async';
 export 'dart:async';
-import 'dart:json' as json;
+import 'dart:convert';
 import 'dart:html';
 export 'dart:html';
 import 'dart:math';

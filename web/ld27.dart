@@ -3,18 +3,15 @@ library ld27;
 import 'package:ld27/client.dart';
 
 void main() {
-  window.setImmediate(() {
-    var canvas = query('canvas');
-    canvas.width = MAX_WIDTH;
-    canvas.height = MAX_HEIGHT;
+  var canvas = querySelector('canvas');
+  canvas.width = MAX_WIDTH;
+  canvas.height = MAX_HEIGHT;
 
-    Future.wait([loadSpritesheet('../assets/img/assets'), loadPolygons('../assets/img/assets')]).then((result) {
-      Game game = new Game(canvas, new LayeredSpriteSheet(result[0]), result[1]);
-      game.init();
+  Future.wait([loadSpritesheet('../assets/img/assets'), loadPolygons('../assets/img/assets')]).then((result) {
+    Game game = new Game(canvas, new LayeredSpriteSheet(result[0]), result[1]);
+    game.init();
 
-      window.requestAnimationFrame(game.update);
-    });
-
+    window.requestAnimationFrame(game.update);
   });
 }
 

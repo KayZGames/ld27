@@ -4,40 +4,38 @@ packages:
   args:
     description: args
     source: hosted
-    version: "0.6.19"
+    version: "0.9.0"
   asset_pack:
     description:
       ref: null
-      resolved-ref: "049b5dd955710ec931661fcbcd11d5d3cf9188ba"
+      resolved-ref: d535db44176eccb8519645f19d8b9bbb9b0c9853
       url: "https://github.com/johnmccutchan/asset_pack.git"
     source: git
-    version: "0.6.0"
+    version: "0.6.2"
   bot:
     description: bot
     source: hosted
-    version: "0.23.0"
+    version: "0.25.1"
   bot_io:
     description: bot_io
     source: hosted
-    version: "0.23.1"
+    version: "0.25.0"
   browser:
     description: browser
     source: hosted
-    version: "0.6.19"
+    version: "0.9.0"
   canvas_query:
-    description:
-      path: "F:\\Programming\\workspaces\\dart\\ld27\\../CanvasQuery"
-      relative: true
-    source: path
-    version: "0.2.0-dev"
+    description: canvas_query
+    source: hosted
+    version: "0.2.0"
   crypto:
     description: crypto
     source: hosted
-    version: "0.6.19"
+    version: "0.9.0"
   dartemis:
     description: dartemis
     source: hosted
-    version: "0.4.2"
+    version: "0.5.1"
   dartemis_toolbox:
     description: dartemis_toolbox
     source: hosted
@@ -45,46 +43,46 @@ packages:
   hop:
     description: hop
     source: hosted
-    version: "0.24.2"
+    version: "0.27.1"
   html5lib:
     description: html5lib
     source: hosted
-    version: "0.6.19"
+    version: "0.9.0"
   logging:
     description: logging
     source: hosted
-    version: "0.6.19"
-  meta:
-    description: meta
-    source: hosted
-    version: "0.6.19"
+    version: "0.9.0"
   path:
     description: path
     source: hosted
-    version: "0.6.19"
+    version: "0.9.0"
   simple_audio:
     description:
       ref: null
-      resolved-ref: cc56083c80f8b6bb15b60650c67226f69dbb3ad9
+      resolved-ref: "0da8ae6ac7fce3935e1b58770112c26c56836ccc"
       url: "https://github.com/johnmccutchan/simpleaudio.git"
     source: git
     version: "0.9.0"
   source_maps:
     description: source_maps
     source: hosted
-    version: "0.6.19"
+    version: "0.9.0"
   stack_trace:
     description: stack_trace
     source: hosted
-    version: "0.6.19"
+    version: "0.9.0"
   unittest:
     description: unittest
     source: hosted
-    version: "0.6.19"
+    version: "0.9.0"
   unmodifiable_collection:
     description: unmodifiable_collection
     source: hosted
-    version: "0.6.19"
+    version: "0.9.0"
+  utf:
+    description: utf
+    source: hosted
+    version: "0.9.0"
   vector_math:
     description: vector_math
     source: hosted

@@ -97,7 +97,7 @@ class AchievementRenderSystem extends EntityProcessingSystem {
   ComponentMapper<ExpirationTimer> em;
   CanvasRenderingContext2D context;
   Map<String, String> achievements;
-  CqWrapper _cq;
+  CanvasQuery _cq;
   bool active = false;
   AchievementRenderSystem(this.context) : super(Aspect.getAspectForAllOf([Achievement, ExpirationTimer]));
 

@@ -103,5 +103,5 @@ class _Size {
 
 
 Future<Map<String, dynamic>> _processAssets(String assetJson) {
-  return new Future.value(json.parse(assetJson));
+  return new Future.value(JSON.decode(assetJson));
 }
