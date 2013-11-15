@@ -40,6 +40,13 @@ packages:
     description: dartemis_toolbox
     source: hosted
     version: "0.4.0"
+  gamedev_helpers:
+    description:
+      ref: null
+      resolved-ref: "1d1df9b6d33f9ec75f47c85ca1e25ee1e0596e99"
+      url: "https://github.com/denniskaselow/gamedev_helpers"
+    source: git
+    version: "0.0.0"
   hop:
     description: hop
     source: hosted
@@ -60,7 +67,7 @@ packages:
     description:
       ref: null
       resolved-ref: "0da8ae6ac7fce3935e1b58770112c26c56836ccc"
-      url: "https://github.com/johnmccutchan/simpleaudio.git"
+      url: "https://github.com/johnmccutchan/simpleaudio"
     source: git
     version: "0.9.0"
   source_maps:

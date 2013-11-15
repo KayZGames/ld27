@@ -75,23 +75,11 @@ class FeatureActivationSystem extends IntervalEntitySystem {
   }
 
   Future _prepareSoundActivation() {
-    var audio = new AudioElement();
-    var fileExtension = 'ogg';
-    var goodAnswer = ['probably', 'maybe'];
-    if (goodAnswer.contains(audio.canPlayType('audio/ogg'))) {
-      fileExtension = 'ogg';
-    } else if (goodAnswer.contains(audio.canPlayType('audio/mpeg; codecs="mp3"'))) {
-      fileExtension = 'mp3';
-    } else if (goodAnswer.contains(audio.canPlayType('audio/mp3'))) {
-      fileExtension = 'mp3';
-    }
-    List<Future> futures = new List<Future>();
+    List<String> names = ['shoot_0', 'collision_0'];
     for (int i = 0; i < SOUNDS_EXPLOSION; i++) {
-      futures.add(audioManager.makeClip('explosion_$i', 'explosion_$i.$fileExtension').load());
+     names.add('explosion_$i');
     }
-    futures.add(audioManager.makeClip('shoot_0', 'shoot_0.$fileExtension').load());
-    futures.add(audioManager.makeClip('collision_0', 'collision_0.$fileExtension').load());
-    return Future.wait(futures);
+    return loadAudioClips(audioManager, names);
   }
 
   void _activateSound(Future preparationResult) {

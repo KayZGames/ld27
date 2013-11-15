@@ -1,10 +1,12 @@
 name: ld27
-description: A sample web application
+description: LD27 - 10 seconds
 dependencies:
   browser: any
   canvas_query: any
   dartemis: any
   dartemis_toolbox: any
   simple_audio:
-    git: https://github.com/johnmccutchan/simpleaudio.git
+    git: https://github.com/johnmccutchan/simpleaudio
   vector_math: any
+  gamedev_helpers:
+    git: https://github.com/denniskaselow/gamedev_helpers
