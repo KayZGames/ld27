@@ -1270,7 +1270,7 @@ J.EC(this.yM)
 J.bs(this.yM,z)
 z=J.aS(this.yM)
 J.yc(this.yM,a)
-J.qx(this.yM,null)
+this.ng(this)
 J.yc(this.yM,z)},
 lf:function(a,b,c,d){var z=W.d9(d,c)
 J.QY(J.uP(z),this.MF,a,b,c,d,0,0,c,d)
@@ -1392,7 +1392,8 @@ or:function(a){return J.Mq(this.yM)},
 qH:function(a,b,c,d){return J.Kh(this.yM,b,c,d)},
 WE:function(a,b,c,d,e,f,g,h,i,j){return J.QY(this.yM,b,c,d,e,f,g,h,i,j)},
 MD:function(a,b,c,d){return J.I8(this.yM,b,c,d)},
-UW:function(a,b){return J.qx(this.yM,b)},
+UW:function(a,b){J.Wm(this.yM)},
+ng:function(a){return this.UW(a,null)},
 OE:function(a,b,c,d,e){return J.wE(this.yM,b,c,d,e)},
 ZG:function(a,b,c,d,e){return J.bL(this.yM,b,c,d,e)},
 Fp:function(a,b,c){return J.IL(this.yM,b,c)},
@@ -3329,6 +3330,7 @@ Q4:function(a){return a.beginPath()},
 hN:function(a,b,c,d,e){return a.clearRect(b,c,d,e)},
 or:function(a){return a.closePath()},
 UW:function(a,b){return a.fill(b)},
+ng:function(a){return a.fill()},
 ZG:function(a,b,c,d,e){return P.J3(a.getImageData(b,c,d,e))},
 Fp:function(a,b,c){return a.lineTo(b,c)},
 YU:function(a,b){return a.measureText(b)},
@@ -6134,6 +6136,7 @@ J.Vl=function(a,b,c,d,e){return J.RE(a).eT(a,b,c,d,e)}
 J.Vm=function(a){return J.RE(a).gP(a)}
 J.WB=function(a,b){if(typeof a=="number"&&typeof b=="number")return a+b
 return J.Qc(a).g(a,b)}
+J.Wm=function(a){return J.RE(a).ng(a)}
 J.XB=function(a,b,c,d){return J.RE(a).vY(a,b,c,d)}
 J.XC=function(a){return J.w1(a).mv(a)}
 J.XH=function(a){return J.Wx(a).yu(a)}
@@ -6165,7 +6168,6 @@ J.q0=function(a){return J.RE(a).gLm(a)}
 J.q8=function(a){return J.U6(a).gB(a)}
 J.qL=function(a,b){return J.RE(a).Ne(a,b)}
 J.qV=function(a,b,c,d){return J.RE(a).On(a,b,c,d)}
-J.qx=function(a,b){return J.RE(a).UW(a,b)}
 J.rr=function(a){return J.rY(a).bS(a)}
 J.uH=function(a,b){return J.rY(a).Fr(a,b)}
 J.uP=function(a){return J.RE(a).gVE(a)}
