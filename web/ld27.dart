@@ -6,9 +6,10 @@ void main() {
   var canvas = querySelector('canvas');
   canvas.width = MAX_WIDTH;
   canvas.height = MAX_HEIGHT;
+  var helper = new GameHelper('ld27');
 
-  Future.wait([loadSpritesheet('../assets/img/assets'), loadPolygons('../assets/img/assets')]).then((result) {
-    Game game = new Game(canvas, new LayeredSpriteSheet(result[0]), result[1]);
+  Future.wait([helper.loadSpritesheet('assets'), helper.loadPolygons('assets')]).then((result) {
+    Game game = new Game(canvas, helper, new LayeredSpriteSheet(result[0]), result[1]);
     game.init();
 
     window.requestAnimationFrame(game.update);
@@ -19,13 +20,11 @@ class Game {
   CanvasElement canvas;
   LayeredSpriteSheet sheet;
   Map<String, List<Polygon>> bodyDefs;
-  AudioManager audioManager;
+  GameHelper helper;
 
   World world = new World();
 
-  Game(this.canvas, this.sheet, this.bodyDefs) {
-    audioManager = createAudioManager();
-  }
+  Game(this.canvas, this.helper, this.sheet, this.bodyDefs);
 
   void init() {
     bodyDefs.forEach((bodyId, shapes) {
@@ -61,9 +60,9 @@ class Game {
     world.addSystem(new TruckSpawningSystem());
     world.addSystem(new TankSpawningSystem());
     world.addSystem(new PlaneSpawningSystem());
-    world.addSystem(new FeatureActivationSystem(_achievementLoader, _graphicsLoader, sheet, audioManager));
+    world.addSystem(new FeatureActivationSystem(_achievementLoader, _graphicsLoader, sheet, helper.audioHelper));
     // Sound
-    world.addSystem(new SoundSystem(audioManager));
+    world.addSystem(new SoundSystem(helper.audioHelper));
     // Rendering
     world.addSystem(new BackgroundRenderingSystem(canvas.context2D, sheet));
     world.addSystem(new EntityRenderingSystem(canvas.context2D, sheet));
@@ -74,8 +73,8 @@ class Game {
     world.delta = 16.66;
   }
 
-  Future<Map<String, String>> _achievementLoader() => loadAchievements().then(setAchievementsToAchivementRenderSystem);
-  Future<SpriteSheet> _graphicsLoader(int version) => loadSpritesheet('../assets/img/assetsv$version');
+  Future<Map<String, String>> _achievementLoader() => helper.loadAchievements().then(setAchievementsToAchivementRenderSystem);
+  Future<SpriteSheet> _graphicsLoader(int version) => helper.loadSpritesheet('assetsv$version');
 
   void update(_) {
     world.process();

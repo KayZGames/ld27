@@ -10,8 +10,9 @@ import 'package:dartemis_toolbox/utils_dartemis.dart';
 export 'package:dartemis_toolbox/utils_dartemis.dart';
 import 'package:vector_math/vector_math.dart';
 export 'package:vector_math/vector_math.dart';
+import 'package:gamedev_helpers/gamedev_helpers.dart';
+export 'package:gamedev_helpers/gamedev_helpers.dart';
 
-part 'src/shared/assets.dart';
 part 'src/shared/components.dart';
 part 'src/shared/systems/collisions.dart';
 part 'src/shared/systems/game_logic.dart';

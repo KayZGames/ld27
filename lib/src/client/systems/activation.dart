@@ -12,8 +12,8 @@ class FeatureActivationSystem extends IntervalEntitySystem {
   LayeredSpriteSheet sheet;
   AchievementLoader achievementLoader;
   GraphicsLoader graphicsLoader;
-  AudioManager audioManager;
-  FeatureActivationSystem(this.achievementLoader, this.graphicsLoader, this.sheet, this.audioManager) : super(10000, Aspect.getEmpty());
+  AudioHelper helper;
+  FeatureActivationSystem(this.achievementLoader, this.graphicsLoader, this.sheet, this.helper) : super(10000, Aspect.getEmpty());
 
   void initialize() {
     features.add(_achivementFeature);
@@ -79,7 +79,7 @@ class FeatureActivationSystem extends IntervalEntitySystem {
     for (int i = 0; i < SOUNDS_EXPLOSION; i++) {
      names.add('explosion_$i');
     }
-    return loadAudioClips(audioManager, names);
+    return helper.loadAudioClips(names);
   }
 
   void _activateSound(Future preparationResult) {
