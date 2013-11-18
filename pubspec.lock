@@ -43,7 +43,7 @@ packages:
   gamedev_helpers:
     description:
       ref: null
-      resolved-ref: aadbdbd5121b3d91a45fa37d7cac8293916f6340
+      resolved-ref: "08e165a6458b3f2a891815ad228827057077c739"
       url: "https://github.com/denniskaselow/gamedev_helpers"
     source: git
     version: "0.0.0"
