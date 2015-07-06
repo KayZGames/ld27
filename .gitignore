@@ -1,3 +1,6 @@
 /assets/orig
 packages
 /deploy
+.idea/
+.packages
+.pub/

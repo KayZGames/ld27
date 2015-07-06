@@ -1,15 +1,15 @@
 part of shared;
 
 class CooldownSystem extends EntityProcessingSystem {
-  ComponentMapper<Cooldown> cm;
+  Mapper<Cooldown> cm;
   CooldownSystem() : super(Aspect.getAspectForAllOf([Cooldown]));
 
   void initialize() {
-    cm = new ComponentMapper<Cooldown>(Cooldown, world);
+    cm = new Mapper<Cooldown>(Cooldown, world);
   }
 
   void processEntity(Entity entity) {
-    var c = cm.get(entity);
+    var c = cm[entity];
     c.value -= world.delta;
 
     if (c.value < 0.0) {
@@ -20,15 +20,15 @@ class CooldownSystem extends EntityProcessingSystem {
 }
 
 class ExpirationSystem extends EntityProcessingSystem {
-  ComponentMapper<ExpirationTimer> em;
+  Mapper<ExpirationTimer> em;
   ExpirationSystem() : super(Aspect.getAspectForAllOf([ExpirationTimer]));
 
   void initialize() {
-    em = new ComponentMapper<ExpirationTimer>(ExpirationTimer, world);
+    em = new Mapper<ExpirationTimer>(ExpirationTimer, world);
   }
 
   void processEntity(Entity entity) {
-    var e = em.get(entity);
+    var e = em[entity];
     e.time -= world.delta;
 
     if (e.time < 0.0) {
@@ -38,19 +38,19 @@ class ExpirationSystem extends EntityProcessingSystem {
 }
 
 class MovementSystem extends EntityProcessingSystem {
-  ComponentMapper<Transform> tm;
-  ComponentMapper<Velocity> vm;
+  Mapper<Transform> tm;
+  Mapper<Velocity> vm;
 
   MovementSystem() : super(Aspect.getAspectForAllOf([Transform, Velocity]));
 
   void initialize() {
-    tm = new ComponentMapper<Transform>(Transform, world);
-    vm = new ComponentMapper<Velocity>(Velocity, world);
+    tm = new Mapper<Transform>(Transform, world);
+    vm = new Mapper<Velocity>(Velocity, world);
   }
 
   void processEntity(Entity entity) {
-    var t = tm.get(entity);
-    var v = vm.get(entity);
+    var t = tm[entity];
+    var v = vm[entity];
 
     var pos = t.position;
     pos.x = pos.x - v.abs * sin(v.angle) * world.delta;
@@ -61,18 +61,18 @@ class MovementSystem extends EntityProcessingSystem {
 }
 
 class DamageToHealthSystem extends EntityProcessingSystem {
-  ComponentMapper<Health> hm;
-  ComponentMapper<Damage> dm;
+  Mapper<Health> hm;
+  Mapper<Damage> dm;
   DamageToHealthSystem() : super(Aspect.getAspectForAllOf([Health, Damage]));
 
   void initialize() {
-    hm = new ComponentMapper<Health>(Health, world);
-    dm = new ComponentMapper<Damage>(Damage, world);
+    hm = new Mapper<Health>(Health, world);
+    dm = new Mapper<Damage>(Damage, world);
   }
 
   void processEntity(Entity entity) {
-    var h = hm.get(entity);
-    var d = dm.get(entity);
+    var h = hm[entity];
+    var d = dm[entity];
 
     h.currentHealth -= d.value;
 

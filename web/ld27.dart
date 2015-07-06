@@ -3,18 +3,20 @@ library ld27;
 import 'package:ld27/client.dart';
 
 void main() {
-  window.setImmediate(() {
-    var canvas = query('canvas');
-    canvas.width = MAX_WIDTH;
-    canvas.height = MAX_HEIGHT;
+  var canvas = querySelector('canvas');
+  canvas.width = MAX_WIDTH;
+  canvas.height = MAX_HEIGHT;
 
-    Future.wait([loadSpritesheet('../assets/img/assets'), loadPolygons('../assets/img/assets')]).then((result) {
-      Game game = new Game(canvas, new LayeredSpriteSheet(result[0]), result[1]);
-      game.init();
+  Future
+      .wait([
+    loadSpritesheet('packages/ld27/assets/img/assets'),
+    loadPolygons('packages/ld27/assets/img/assets')
+  ])
+      .then((result) {
+    Game game = new Game(canvas, new LayeredSpriteSheet(result[0]), result[1]);
+    game.init();
 
-      window.requestAnimationFrame(game.initialUpdate);
-    });
-
+    window.requestAnimationFrame(game.initialUpdate);
   });
 }
 
@@ -28,14 +30,16 @@ class Game {
   World world = new World();
 
   Game(this.canvas, this.sheet, this.bodyDefs) {
-    audioManager = createAudioManager();
+    audioManager = createAudioManager('ld27');
   }
 
   void init() {
     bodyDefs.forEach((bodyId, shapes) {
-      var offset = sheet.getLayerFor('$bodyId.png').sprites['$bodyId.png'].offset;
+      var offset =
+          sheet.getLayerFor('$bodyId.png').sprites['$bodyId.png'].offset;
       shapes.forEach((shape) {
-        shape.vertices = shape.vertices.map((vertex) => vertex + offset).toList();
+        shape.vertices =
+            shape.vertices.map((vertex) => vertex + offset).toList();
       });
     });
 
@@ -43,8 +47,16 @@ class Game {
     world.addManager(tm);
     world.addManager(new PlayerManager());
 
-    var entity = addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 100.0, 0.0), new Velocity(0.0, 0.0), new BodyDef('ship_0')]);
-    addNewEntity(world, [new Transform.w2d(MAX_WIDTH/2.0, MAX_HEIGHT - 170.0, 0.0), new Velocity(0.0, 0.0), new Gun(1, 500.0)], player: PLAYER_1);
+    var entity = addNewEntity(world, [
+      new Transform.w2d(MAX_WIDTH / 2.0, MAX_HEIGHT - 100.0, 0.0),
+      new Velocity(0.0, 0.0),
+      new BodyDef('ship_0')
+    ]);
+    addNewEntity(world, [
+      new Transform.w2d(MAX_WIDTH / 2.0, MAX_HEIGHT - 170.0, 0.0),
+      new Velocity(0.0, 0.0),
+      new Gun(1, 500.0)
+    ], player: PLAYER_1);
 
     tm.register(entity, PLAYER_1);
 
@@ -65,7 +77,8 @@ class Game {
     world.addSystem(new TruckSpawningSystem());
     world.addSystem(new TankSpawningSystem());
     world.addSystem(new PlaneSpawningSystem());
-    world.addSystem(new FeatureActivationSystem(_achievementLoader, _graphicsLoader, sheet, audioManager));
+    world.addSystem(new FeatureActivationSystem(
+        _achievementLoader, _graphicsLoader, sheet, audioManager));
     // Sound
     world.addSystem(new SoundSystem(audioManager));
     // Rendering
@@ -77,8 +90,10 @@ class Game {
     world.initialize();
   }
 
-  Future<Map<String, String>> _achievementLoader() => loadAchievements().then(setAchievementsToAchivementRenderSystem);
-  Future<SpriteSheet> _graphicsLoader(int version) => loadSpritesheet('../assets/img/assetsv$version');
+  Future<Map<String, String>> _achievementLoader() =>
+      loadAchievements().then(setAchievementsToAchivementRenderSystem);
+  Future<SpriteSheet> _graphicsLoader(int version) =>
+      loadSpritesheet('packages/ld27/assets/img/assetsv$version');
 
   void initialUpdate(num time) {
     world.delta = 16.66;
@@ -94,7 +109,8 @@ class Game {
     window.requestAnimationFrame(update);
   }
 
-  void setAchievementsToAchivementRenderSystem(Map<String, String> achievements) {
+  void setAchievementsToAchivementRenderSystem(
+      Map<String, String> achievements) {
     AchievementRenderSystem system = world.getSystem(AchievementRenderSystem);
     system.achievements = achievements;
   }

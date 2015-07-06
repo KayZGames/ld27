@@ -1,32 +1,34 @@
 part of shared;
 
 class CollisionDetectionSystem extends EntitySystem {
-  ComponentMapper<Transform> tm;
-  ComponentMapper<BodyDef> bm;
-  ComponentMapper<DamageOnCollision> docm;
+  Mapper<Transform> tm;
+  Mapper<BodyDef> bm;
+  Mapper<DamageOnCollision> docm;
   Map<String, List<Polygon>> bodyDefs;
 
-  CollisionDetectionSystem(this.bodyDefs) : super(Aspect.getAspectForAllOf([Transform, BodyDef]).exclude([Effect]));
+  CollisionDetectionSystem(this.bodyDefs)
+      : super(Aspect.getAspectForAllOf([Transform, BodyDef]).exclude([Effect]));
 
   void initialize() {
-    tm = new ComponentMapper<Transform>(Transform, world);
-    bm = new ComponentMapper<BodyDef>(BodyDef, world);
-    docm = new ComponentMapper<DamageOnCollision>(DamageOnCollision, world);
+    tm = new Mapper<Transform>(Transform, world);
+    bm = new Mapper<BodyDef>(BodyDef, world);
+    docm = new Mapper<DamageOnCollision>(DamageOnCollision, world);
   }
 
-  void processEntities(ReadOnlyBag<Entity> entities) {
-    int size = entities.size;
+  void processEntities(Iterable<Entity> iterableEntities) {
+    var entities = new List.from(iterableEntities, growable: false);
+    int size = entities.length;
     if (size > 1) {
-      for (int i = 0; i < entities.size - 1; i++) {
-        for (int j = i + 1; j < entities.size; j++) {
+      for (int i = 0; i < entities.length - 1; i++) {
+        for (int j = i + 1; j < entities.length; j++) {
           var entity1 = entities[i];
           var entity2 = entities[j];
 
-          var pos1 = tm.get(entity1).position;
-          var pos2 = tm.get(entity2).position;
+          var pos1 = tm[entity1].position;
+          var pos2 = tm[entity2].position;
 
-          var bodyId1 = bm.get(entity1).bodyId;
-          var bodyId2 = bm.get(entity2).bodyId;
+          var bodyId1 = bm[entity1].bodyId;
+          var bodyId2 = bm[entity2].bodyId;
 
           var shapes1 = bodyDefs[bodyId1];
           var shapes2 = bodyDefs[bodyId2];
@@ -51,7 +53,8 @@ class CollisionDetectionSystem extends EntitySystem {
     }
   }
 
-  bool doShapesCollide(List<Polygon> shapes1, Vector2 pos1, List<Polygon> shapes2, Vector2 pos2) {
+  bool doShapesCollide(List<Polygon> shapes1, Vector2 pos1,
+      List<Polygon> shapes2, Vector2 pos2) {
     bool shapeCollides = true;
     shapes2.forEach((shape2) {
       shapeCollides = false;
@@ -72,7 +75,6 @@ class CollisionDetectionSystem extends EntitySystem {
 
           double min2;
           double max2;
-          bool collides = true;
           shape2.vertices.forEach((projectedVertex2) {
             var dot = (projectedVertex2 + pos2).dot(normal);
             if (null == min2) {
@@ -100,7 +102,7 @@ class CollisionDetectionSystem extends EntitySystem {
   }
 
   Vector2 getNormal(Vector2 vertext1, Vector2 vertex2) {
-    var normal = new Vector2(- vertext1.y + vertex2.y, vertext1.x - vertex2.x);
+    var normal = new Vector2(-vertext1.y + vertex2.y, vertext1.x - vertex2.x);
     normal.normalize();
     return normal;
   }
@@ -109,7 +111,8 @@ class CollisionDetectionSystem extends EntitySystem {
 }
 
 class DestroyOnCollisionSystem extends EntityProcessingSystem {
-  DestroyOnCollisionSystem() : super(Aspect.getAspectForAllOf([Collision, DestroyOnCollision]));
+  DestroyOnCollisionSystem()
+      : super(Aspect.getAspectForAllOf([Collision, DestroyOnCollision]));
 
   void processEntity(Entity entity) {
     entity.deleteFromWorld();

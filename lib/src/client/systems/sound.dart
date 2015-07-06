@@ -1,18 +1,18 @@
 part of client;
 
 class SoundSystem extends EntityProcessingSystem {
-  ComponentMapper<Sound> sm;
+  Mapper<Sound> sm;
   AudioManager audioManager;
   bool active = false;
   SoundSystem(this.audioManager) : super(Aspect.getAspectForAllOf([Sound]));
 
   initialize() {
-    sm = new ComponentMapper<Sound>(Sound, world);
+    sm = new Mapper<Sound>(Sound, world);
   }
 
   processEntity(Entity e) {
     if (active) {
-      var sound = sm.get(e);
+      var sound = sm[e];
       audioManager.playClipFromSource('default', sound.clipName);
     }
     e.deleteFromWorld();
@@ -23,13 +23,11 @@ class SoundSystem extends EntityProcessingSystem {
   }
 }
 
-
-AudioManager createAudioManager() {
-  int webIndex = window.location.href.lastIndexOf('/web/');
-  var baseUrl = window.location.href.substring(0, webIndex) + '/assets/sfx/';
+/// Expects sound assets in /asset/sfx
+AudioManager createAudioManager(String appName) {
+  var baseUrl = 'packages/$appName/assets/sfx';
   var manager;
   try {
-    if (null == new AudioContext().createBufferSource().gain) throw 'this ain\'t no real AudioContext';
     manager = new AudioManager(baseUrl);
     var source = manager.makeSource('default');
     source.positional = false;
@@ -54,28 +52,27 @@ class AudioElementManager implements AudioManager {
     if (clip != null) {
       return clip;
     }
-    clip = new AudiElementClip._internal(this, name, "$baseURL$url");
+    clip = new AudiElementClip._internal("$baseURL$url");
     _clips[name] = clip;
     return clip;
   }
 
-  AudioSound playClipFromSource(String sourceName, String clipName, [bool looped=false]) {
+  AudioSound playClipFromSource(String sourceName, String clipName,
+      [bool looped = false]) {
     _clips[clipName].play();
     return null;
   }
 
-  dynamic noSuchMethod(Invocation im) {}
+  noSuchMethod(Invocation im) {}
 }
 
 /**
  * AudioClip for browsers that don't support AudioContext.
  */
 class AudiElementClip implements AudioClip {
-  final AudioManager _manager;
-  String _name;
   String _url;
   var audioElements = new List<AudioElement>();
-  AudiElementClip._internal(this._manager, this._name, this._url);
+  AudiElementClip._internal(this._url);
 
   Future<AudioClip> load() {
     var audioElement = new AudioElement();
@@ -100,5 +97,5 @@ class AudiElementClip implements AudioClip {
     audioElement.play();
   }
 
-  dynamic noSuchMethod(Invocation im) {}
+  noSuchMethod(Invocation im) {}
 }

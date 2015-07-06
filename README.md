@@ -1,3 +1,3 @@
 # LD 27 - 10 seconds
 
-Enter description here (and some screenshots)
+[Play here](http://kayzgames.github.io/ld27/ld27.html)

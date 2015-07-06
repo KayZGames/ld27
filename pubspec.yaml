@@ -2,10 +2,11 @@ name: ld27
 description: A sample web application
 dependencies:
   browser: any
-  canvas_query:
-    path: ../CanvasQuery
   dartemis: any
   dartemis_toolbox: any
   simple_audio:
-    git: https://github.com/johnmccutchan/simpleaudio.git
+    path: ../simple_audio
   vector_math: any
+  dart_to_js_script_rewriter: any
+transformers:
+- dart_to_js_script_rewriter

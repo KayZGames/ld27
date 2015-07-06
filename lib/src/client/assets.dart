@@ -1,29 +1,39 @@
 part of client;
 
 Future<Map<String, String>> loadAchievements() {
-  return HttpRequest.getString('../assets/achievements.json').then(_processAssets);
+  return HttpRequest
+      .getString('packages/ld27/assets/achievements.json')
+      .then(_processAssets);
 }
 
 Future<Map<String, List<Polygon>>> loadPolygons(String path) {
-  return HttpRequest.getString('$path.polygons.json').then(_processAssets).then(_createPolygonMap);
+  return HttpRequest
+      .getString('$path.polygons.json')
+      .then(_processAssets)
+      .then(_createPolygonMap);
 }
 
-Future<Map<String, List<Polygon>>> _createPolygonMap(Map<String, List<Map<String, List<double>>>> polygons) {
+Future<Map<String, List<Polygon>>> _createPolygonMap(
+    Map<String, List<Map<String, List<double>>>> polygons) {
   var result = new Map<String, List<Polygon>>();
   polygons.forEach((bodyId, pointMaps) {
     var polygonList = new List<Polygon>();
-    pointMaps.forEach((pointMap) => polygonList.add(new Polygon(pointMap['shape'])));
+    pointMaps
+        .forEach((pointMap) => polygonList.add(new Polygon(pointMap['shape'])));
     result[bodyId] = polygonList;
   });
   return new Future.value(result);
 }
 
 Future<SpriteSheet> loadSpritesheet(String path) {
-  return HttpRequest.getString('$path.json')
-    .then(_processAssets).then((assets) => _createSpriteSheet(path, assets));
+  return HttpRequest
+      .getString('$path.json')
+      .then(_processAssets)
+      .then((assets) => _createSpriteSheet(path, assets));
 }
 
-Future<SpriteSheet> _createSpriteSheet(String path, Map<String, Map<String, Map<String, dynamic>>> assets) {
+Future<SpriteSheet> _createSpriteSheet(
+    String path, Map<String, Map<String, Map<String, dynamic>>> assets) {
   var completer = new Completer<SpriteSheet>();
   var img = new ImageElement();
   img.onLoad.listen((_) {
@@ -45,7 +55,8 @@ class LayeredSpriteSheet {
     sheets.add(initialSpriteSheet);
   }
   void add(SpriteSheet sheet) => sheets.insert(0, sheet);
-  SpriteSheet getLayerFor(String spriteId) => sheets.where((sheet) => sheet.sprites.containsKey(spriteId)).first;
+  SpriteSheet getLayerFor(String spriteId) =>
+      sheets.where((sheet) => sheet.sprites.containsKey(spriteId)).first;
 }
 
 class SpriteSheet {
@@ -55,8 +66,8 @@ class SpriteSheet {
 }
 
 class Sprite {
-  Rect src;
-  Rect dst;
+  Rectangle src;
+  Rectangle dst;
   Vector2 offset;
   Sprite(Map<String, dynamic> singleAsset) {
     _Asset asset = new _Asset(singleAsset);
@@ -70,8 +81,8 @@ class Sprite {
       cy = -asset.frame.h ~/ 2;
     }
 
-    src = new Rect(frame.x, frame.y, frame.w, frame.h);
-    dst = new Rect(cx, cy, frame.w, frame.h);
+    src = new Rectangle(frame.x, frame.y, frame.w, frame.h);
+    dst = new Rectangle(cx, cy, frame.w, frame.h);
     offset = new Vector2(cx.toDouble(), cy.toDouble());
   }
 }
@@ -81,27 +92,29 @@ class _Asset {
   bool trimmed;
   _Rect spriteSourceSize;
   _Size sourceSize;
-  _Asset(Map<String, dynamic> asset) : frame = new _Rect(asset["frame"]),
-                                      trimmed = asset["trimmed"],
-                                      spriteSourceSize = new _Rect(asset["spriteSourceSize"]),
-                                      sourceSize = new _Size(asset["sourceSize"]);
+  _Asset(Map<String, dynamic> asset)
+      : frame = new _Rect(asset["frame"]),
+        trimmed = asset["trimmed"],
+        spriteSourceSize = new _Rect(asset["spriteSourceSize"]),
+        sourceSize = new _Size(asset["sourceSize"]);
 }
 
 class _Rect {
   int x, y, w, h;
-  _Rect(Map<String, int> rect) : x = rect["x"].toInt(),
-                                y = rect["y"].toInt(),
-                                w = rect["w"].toInt(),
-                                h = rect["h"].toInt();
+  _Rect(Map<String, int> rect)
+      : x = rect["x"].toInt(),
+        y = rect["y"].toInt(),
+        w = rect["w"].toInt(),
+        h = rect["h"].toInt();
 }
 
 class _Size {
   int w, h;
-  _Size(Map<String, int> rect) : w = rect["w"].toInt(),
-                                h = rect["h"].toInt();
+  _Size(Map<String, int> rect)
+      : w = rect["w"].toInt(),
+        h = rect["h"].toInt();
 }
 
-
 Future<Map<String, dynamic>> _processAssets(String assetJson) {
-  return new Future.value(json.parse(assetJson));
+  return new Future.value(json.JSON.decode(assetJson));
 }

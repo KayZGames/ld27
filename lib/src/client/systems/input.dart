@@ -5,8 +5,8 @@ class MouseInputHandlingSystem extends VoidEntitySystem {
   Point mousePos;
   PlayerManager pm;
   TagManager tagManager;
-  ComponentMapper<Velocity> vm;
-  ComponentMapper<Transform> tm;
+  Mapper<Velocity> vm;
+  Mapper<Transform> tm;
 
   MouseInputHandlingSystem(this.canvas);
 
@@ -14,8 +14,8 @@ class MouseInputHandlingSystem extends VoidEntitySystem {
     pm = world.getManager(PlayerManager);
     tagManager = world.getManager(TagManager);
 
-    vm = new ComponentMapper<Velocity>(Velocity, world);
-    tm = new ComponentMapper<Transform>(Transform, world);
+    vm = new Mapper<Velocity>(Velocity, world);
+    tm = new Mapper<Transform>(Transform, world);
 
     canvas.onMouseMove.listen(handleMouseMove);
   }
@@ -23,14 +23,14 @@ class MouseInputHandlingSystem extends VoidEntitySystem {
   void processSystem() {
     if (null != mousePos) {
       var player = tagManager.getEntity(PLAYER_1);
-      var vel = vm.get(player);
-      var pos = tm.get(player).position;
+      var vel = vm[player];
+      var pos = tm[player].position;
       var diff = pos.x - mousePos.x;
       if (diff > 5) {
-        vel.angle = PI/2;
+        vel.angle = PI / 2;
         vel.abs = 0.25;
       } else if (diff < -5) {
-        vel.angle = -PI/2;
+        vel.angle = -PI / 2;
         vel.abs = 0.25;
       } else {
         vel.angle = 0.0;
@@ -47,6 +47,6 @@ class MouseInputHandlingSystem extends VoidEntitySystem {
   }
 
   void handleMouseMove(MouseEvent event) {
-    mousePos = CqTools.mousePosition(event);
+    mousePos = event.offset;
   }
 }
